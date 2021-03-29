@@ -37,6 +37,7 @@
 	(meta ?num)
 ?f2 <- (actual ?act)
 	(test (<> ?num ?act))
+	(test (> ?x ?y))
 
 =>
 
@@ -44,4 +45,15 @@
 (assert(actual (- ?num (- ?x ?y))))
 (retract ?f1)
 (retract ?f2)
+)
+
+
+(defrule fin
+	(salience 1000)
+	(actual ?num)
+	(meta ?num)
+	(numeros nil)
+=>
+
+(printout t "Se ha encontrado la solucion" crlf)
 )
