@@ -19,7 +19,7 @@ def choose_secret(filename):
 
 
     
-def compare_words():
+def compare_words(word, secret):
     """Dadas dos palabras en mayúsculas (word y secret), esta función calcula las posiciones de las letras de word que aparecen en la misma posición en secret, y las posiciones de las letras de word que aparecen en secret pero en una posición distinta.
     Args:
       word: Una palabra. Ej. "CAMPO"
@@ -28,6 +28,20 @@ def compare_words():
       same_position: Lista de posiciones de word cuyas letras coinciden en la misma posición en secret. En el caso anterior: [0]
       same_letter: Lista de posiciones de word cuyas letras están en secret pero en posiciones distintas. En el caso anterior: [1,2]
     """
+    same_position = []
+    same_letter = []
+    if (len(secret) is not len(word)): raise ValueError("Las palabras no tienen el mismo tamaño")
+    for i in range(len(secret)):
+      if(secret[i]==word[i]):
+        same_position.append(i)
+
+    for i in range(len(word)):
+      for j in range(len(secret)):
+        if(secret[j]==word[i] and i!=j):
+          same_letter.append(i)
+
+    return same_position, same_letter
+
 
 def print_word():
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
@@ -62,13 +76,20 @@ if __name__ == "__main__":
       print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
       for repeticiones in range(0,6):
           word = input("Introduce una nueva palabra: ")
-          same_position, same_letter = compare_words()
-          resultado=print_word()
-          print(resultado)
-          if word == secret:
-              print("HAS GANADO!!")
-              exit()
-      print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+          try: 
+            same_position, same_letter = compare_words(word, secret)
+            resultado=print_word()
+            print(resultado)
+            if word == secret:
+                print("HAS GANADO!!")
+                exit()
+             
+          except ValueError:
+            print("Introduce una palabra del mismo tamaño")
+          
+
+      print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)
+            
     except IndexError:
       print("El fichero está vacío")
     
