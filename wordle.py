@@ -1,4 +1,7 @@
 import math
+import random
+
+from pyparsing import empty
 
 def choose_secret(filename):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
@@ -9,10 +12,7 @@ def choose_secret(filename):
     """
     f = open(filename, mode="rt", encoding="utf-8")
     lista_lineas = f.readlines()
-
-    #como se hace random?
-    secret = lista_lineas[0]
-
+    secret = random.choice(lista_lineas) 
     f.close()
 
     return secret.upper()
@@ -57,15 +57,18 @@ def check_valid_word():
     """
 
 if __name__ == "__main__":
-    secret=choose_secret("palabras_reduced.txt")
-    print(secret)
-    print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
-    for repeticiones in range(0,6):
-        word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words()
-        resultado=print_word()
-        print(resultado)
-        if word == secret:
-            print("HAS GANADO!!")
-            exit()
-    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    try: 
+      secret=choose_secret("palabras_reduced.txt")
+      print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
+      for repeticiones in range(0,6):
+          word = input("Introduce una nueva palabra: ")
+          same_position, same_letter = compare_words()
+          resultado=print_word()
+          print(resultado)
+          if word == secret:
+              print("HAS GANADO!!")
+              exit()
+      print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    except IndexError:
+      print("El fichero está vacío")
+    
