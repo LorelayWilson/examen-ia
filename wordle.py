@@ -47,11 +47,23 @@ def print_word():
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
     Args:
       word: Una palabra. Ej. "CAMPO"
-      same_letter_position: Lista de posiciones. Ej. [0]
+      same_position: Lista de posiciones. Ej. [0]
       same_letter: Lista de posiciones. Ej. [1,2]
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
+    same_position = [0]
+    same_letter = [1, 2]
+    word = "CAMPO"
+    transformed = ""
+    tupla = same_position, same_letter
+    for i in range(len(word)):
+      for j in same_position:
+        if(i==j):
+          transformed = transformed + word[i]
+        else: 
+          transformed = transformed + word[i].lower()
+
     
 def choose_secret_advanced():
     """Dado un nombre de fichero, esta función filtra solo las palabras de 5 letras que no tienen acentos (á,é,í,ó,ú). De estas palabras, la función devuelve una lista de 15 aleatorias no repetidas y una de estas 15, se selecciona aleatoriamente como palabra secret.
@@ -71,6 +83,7 @@ def check_valid_word():
     """
 
 if __name__ == "__main__":
+    print_word()
     try: 
       secret=choose_secret("palabras_reduced.txt")
       print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
