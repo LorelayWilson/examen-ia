@@ -52,10 +52,12 @@ def print_word(word, same_position, same_letter):
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
-    same_position = [3]
-    same_letter = [1, 2]
-    word = "CAMPO"
     transformed = ""
+    for i in same_position:
+      if i<0: raise ValueError("Los valores de posicion son negativos")
+
+    for i in same_letter:
+      if i<0: raise ValueError("Los valores de letras son negativos")
 
     for i in range(len(word)):
       transformed = transformed + "-"
@@ -88,7 +90,6 @@ def check_valid_word():
     """
 
 if __name__ == "__main__":
-    print_word()
     try: 
       secret=choose_secret("palabras_reduced.txt")
       print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
@@ -96,11 +97,14 @@ if __name__ == "__main__":
           word = input("Introduce una nueva palabra: ")
           try: 
             same_position, same_letter = compare_words(word, secret)
-            resultado=print_word()
-            print(resultado)
-            if word == secret:
+            try:
+              resultado=print_word(word, same_position, same_letter)
+              print(resultado)
+              if word == secret:
                 print("HAS GANADO!!")
                 exit()
+            except ValueError:
+              print("Los valores son negativos")
              
           except ValueError:
             print("Introduce una palabra del mismo tamaño")
